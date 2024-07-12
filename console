@@ -1,0 +1,130 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Courier {
+    private String sender;
+    private String receiver;
+    private String location;
+    private String deliveryStatus;
+    private String productId;
+    private double amount;
+
+    public Courier(String sender, String receiver, String location, String deliveryStatus, String productId, double amount) {
+        this.sender = sender;
+        this.receiver = receiver;
+        this.location = location;
+        this.deliveryStatus = deliveryStatus;
+        this.productId = productId;
+        this.amount = amount;
+    }
+
+    // Getters and setters
+    public String getSender() { return sender; }
+    public void setSender(String sender) { this.sender = sender; }
+    
+    public String getReceiver() { return receiver; }
+    public void setReceiver(String receiver) { this.receiver = receiver; }
+    
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
+    
+    public String getDeliveryStatus() { return deliveryStatus; }
+    public void setDeliveryStatus(String deliveryStatus) { this.deliveryStatus = deliveryStatus; }
+    
+    public String getProductId() { return productId; }
+    public void setProductId(String productId) { this.productId = productId; }
+    
+    public double getAmount() { return amount; }
+    public void setAmount(double amount) { this.amount = amount; }
+
+    @Override
+    public String toString() {
+        return "Courier [Sender=" + sender + ", Receiver=" + receiver + ", Location=" + location 
+                + ", Delivery Status=" + deliveryStatus + ", Product ID=" + productId + ", Amount=" + amount + "]";
+    }
+}
+
+public class CourierManagementSystem {
+    private static ArrayList<Courier> couriers = new ArrayList<>();
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\nCourier Management System");
+            System.out.println("1. Add Courier");
+            System.out.println("2. View All Couriers");
+            System.out.println("3. Update Delivery Status");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+            scanner.nextLine();  // Consume newline
+
+            switch (choice) {
+                case 1:
+                    addCourier(scanner);
+                    break;
+                case 2:
+                    viewAllCouriers();
+                    break;
+                case 3:
+                    updateDeliveryStatus(scanner);
+                    break;
+                case 4:
+                    System.out.println("Exiting...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 4);
+
+        scanner.close();
+    }
+
+    private static void addCourier(Scanner scanner) {
+        System.out.print("Enter Sender: ");
+        String sender = scanner.nextLine();
+        System.out.print("Enter Receiver: ");
+        String receiver = scanner.nextLine();
+        System.out.print("Enter Location: ");
+        String location = scanner.nextLine();
+        System.out.print("Enter Delivery Status: ");
+        String deliveryStatus = scanner.nextLine();
+        System.out.print("Enter Product ID: ");
+        String productId = scanner.nextLine();
+        System.out.print("Enter Amount: ");
+        double amount = scanner.nextDouble();
+
+        Courier courier = new Courier(sender, receiver, location, deliveryStatus, productId, amount);
+        couriers.add(courier);
+        System.out.println("Courier added successfully!");
+    }
+
+    private static void viewAllCouriers() {
+        if (couriers.isEmpty()) {
+            System.out.println("No couriers available.");
+        } else {
+            for (Courier courier : couriers) {
+                System.out.println(courier);
+            }
+        }
+    }
+
+    private static void updateDeliveryStatus(Scanner scanner) {
+        System.out.print("Enter Product ID to update status: ");
+        String productId = scanner.nextLine();
+
+        for (Courier courier : couriers) {
+            if (courier.getProductId().equals(productId)) {
+                System.out.print("Enter new Delivery Status: ");
+                String newStatus = scanner.nextLine();
+                courier.setDeliveryStatus(newStatus);
+                System.out.println("Delivery status updated successfully!");
+                return;
+            }
+        }
+
+        System.out.println("Courier with Product ID " + productId + " not found.");
+    }
+}
